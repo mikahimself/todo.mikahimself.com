@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Build and Deploy
 
 on:
   push:
@@ -28,14 +28,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Get latest code
-        uses: actions/checkout@2.3.2
-
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           server: mikahimself.com
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./build/
           server-dir: /todo.mikahimself.com/
 

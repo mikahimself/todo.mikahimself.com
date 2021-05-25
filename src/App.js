@@ -1,7 +1,7 @@
 import './App.css';
 import Button from "@material-ui/core/Button";
 import React, { useState, useEffect } from "react";
-import { FormControl, Grid, InputLabel, List, Container, makeStyles } from '@material-ui/core';
+import { FormControl, InputLabel, List, Container, makeStyles } from '@material-ui/core';
 import { Input } from "@material-ui/core"
 import ToDo from "./components/ToDo";
 import { db } from "./firebase";

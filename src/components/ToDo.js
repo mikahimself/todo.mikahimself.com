@@ -73,7 +73,7 @@ function ToDo(props) {
                     </div>
             </Modal>}
             <ListItem button className={classes.todoListItem} onClick={() => setChecked(!checked)}>
-                {props.todoData != undefined && 
+                {props.todoData !== undefined && 
                 <>
                 <ListItemIcon>
                     <Checkbox checked={checked} onChange={handleChange}/>
@@ -91,7 +91,7 @@ function ToDo(props) {
                 </ListItemSecondaryAction>
                 </>
                 }
-                {props.todoData == undefined &&
+                {props.todoData === undefined &&
                     <>
                         {/* <ListItemText primary={"Add a todo"} ></ListItemText> */}
                         <Input style={{ width: "85%"}}value={input} onChange={(e) => setInput(e.target.value)}/>

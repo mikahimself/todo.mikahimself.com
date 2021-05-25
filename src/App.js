@@ -1,13 +1,24 @@
 import './App.css';
 import Button from "@material-ui/core/Button";
 import React, { useState, useEffect } from "react";
-import { FormControl, InputLabel, List } from '@material-ui/core';
+import { FormControl, Grid, InputLabel, List, Container, makeStyles } from '@material-ui/core';
 import { Input } from "@material-ui/core"
 import ToDo from "./components/ToDo";
 import { db } from "./firebase";
 import firebase from "firebase";
 
+const useStyles = makeStyles((theme) => ({
+  list: {
+    maxWidth: "100%",
+    backgroundColor: "rgb(242, 156, 163)",
+    padding: theme.spacing(4),
+    borderRadius: theme.spacing(2),
+    marginTop: theme.spacing(4)
+  },
+}))
+
 function App() {
+  const classes = useStyles();
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
 
@@ -30,8 +41,9 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <h1>Howdy</h1>
+    <Container maxWidth="sm" className="App" >
+   
+      <h1>All Tasks Great and Small</h1>
       <form>
         <FormControl>
           <InputLabel>New ToDo</InputLabel>
@@ -47,12 +59,15 @@ function App() {
           </Button>
       </form>
 
-      <List>
+
+
+      <List className={classes.list}>
         {todos.map(todo => (
           <ToDo key={todo.id} todoData={todo} />
         ))}
+        <ToDo />
       </List>
-    </div>
+    </Container>
   );
 }
 

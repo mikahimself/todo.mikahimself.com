@@ -12,13 +12,14 @@ const useStyles = makeStyles((theme) => ({
         width: 400,
         backgroundColor: theme.palette.background.paper,
         border: "2px solid #000",
-        boxShadow: theme.shadows[5],
+        boxShadow: theme.shadows[1],
         padding: theme.spacing(2, 4, 3),
     },
     todoListItem: {
-        boxShadow: theme.shadows[3],
+        boxShadow: theme.shadows[1],
         marginBottom: theme.spacing(2),
         padding: theme.spacing(1),
+        borderRadius: theme.spacing(1),
         backgroundColor: "rgb(247, 255, 255)",
         "&:hover": {
             backgroundColor: "rgb(247, 202, 205)"

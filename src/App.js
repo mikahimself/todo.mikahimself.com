@@ -13,7 +13,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgb(242, 156, 163)",
     padding: theme.spacing(4),
     borderRadius: theme.spacing(2),
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(2),
+    },
   },
 }))
 

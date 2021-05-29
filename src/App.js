@@ -1,28 +1,39 @@
 import './App.css';
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import React, { useState, useEffect } from "react";
-import { FormControl, InputLabel, List, Container, makeStyles } from '@material-ui/core';
+import { FormControl, InputLabel, List, Container, makeStyles, Paper } from '@material-ui/core';
 import { Input } from "@material-ui/core"
 import ToDo from "./components/ToDo";
 import { db } from "./firebase";
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import firebase from "firebase";
+import AddDialog from './components/AddDialog';
 
 const useStyles = makeStyles((theme) => ({
+  paper: {
+    // backgroundColor: "rgb(242, 156, 163)",
+    backgroundColor: "rgb(34, 170, 161)",
+    borderRadius: theme.spacing(1),
+  },
   list: {
     maxWidth: "100%",
-    backgroundColor: "rgb(242, 156, 163)",
     padding: theme.spacing(4),
-    borderRadius: theme.spacing(2),
     marginTop: theme.spacing(4),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2),
     },
   },
+  addIcon: {
+    fontSize: "2.5rem",
+    color: "rgb(245, 255, 255)",
+  }
 }))
 
 function App() {
   const classes = useStyles();
   const [todos, setTodos] = useState([]);
+  const [addTodoOpen, setAddTodoOpen] = useState(false);
   const [input, setInput] = useState("");
 
   useEffect(() => {
@@ -33,6 +44,14 @@ function App() {
       })
     ))})
   }, [])
+
+  const handleAddTodoOpen = () => {
+    setAddTodoOpen(true);
+  }
+  
+  const handleAddTodoClose = () => {
+    setAddTodoOpen(false);
+  }
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -63,13 +82,19 @@ function App() {
       </form>
 
 
-
+      <Paper className={classes.paper}>
       <List className={classes.list}>
         {todos.map(todo => (
           <ToDo key={todo.id} todoData={todo} />
         ))}
-        <ToDo />
+        <IconButton>
+          <AddCircleIcon className={classes.addIcon} onClick={handleAddTodoOpen}/>
+        </IconButton>
       </List>
+      </Paper>
+
+      <AddDialog open={addTodoOpen} handleClose={handleAddTodoClose} ></AddDialog>
+
     </Container>
   );
 }

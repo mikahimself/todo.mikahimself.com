@@ -1,10 +1,10 @@
 import React, { useState} from 'react';
 import "./ToDo.css";
-import { ListItem, Input, ListItemText, ListItemIcon, Button, Modal, makeStyles, IconButton, Checkbox, ListItemSecondaryAction } from "@material-ui/core";
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { ListItem, ListItemText, ListItemIcon, Button, Modal, makeStyles, IconButton, Checkbox, ListItemSecondaryAction } from "@material-ui/core";
+// import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import { db } from "../firebase";
+import EditDialog from './EditDialog';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,9 +20,10 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(2),
         padding: theme.spacing(1),
         borderRadius: theme.spacing(1),
-        backgroundColor: "rgb(247, 255, 255)",
+        backgroundColor: "rgb(245, 255, 255)",
         "&:hover": {
-            backgroundColor: "rgb(247, 202, 205)"
+            // backgroundColor: "rgb(247, 202, 205)"
+            backgroundColor: "rgb(34, 143, 129)"
         },
     },
     
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ToDo(props) {
     const classes = useStyles();
-    const [open, setOpen] = useState(false)
+    const [editOpen, setEditOpen] = useState(false)
     const [input, setInput] = useState("");
     const [checked, setChecked] = useState(false);
     
@@ -45,10 +46,13 @@ function ToDo(props) {
     }
     
     const handleClose = () => {
-        setOpen(false);
+        setEditOpen(false);
     }
 
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () => {
+        console.log("Open edit")
+        setEditOpen(true);
+    }
 
     const updateTodo = () => {
         db.collection("todos").doc(props.todoData.id).set({
@@ -65,7 +69,7 @@ function ToDo(props) {
         <>
             {props.todoData &&
             <Modal
-                open={open}
+                open={false}
                 onClose={handleClose}>
                     <div className={classes.paper}>
                         <p>Mein leben!</p>
@@ -73,7 +77,8 @@ function ToDo(props) {
                         <Button onClick={updateTodo}>Update todo</Button>
                     </div>
             </Modal>}
-            <ListItem button className={classes.todoListItem} onClick={() => setChecked(!checked)}>
+            <EditDialog open={editOpen} handleClose={handleClose} todoData={props.todoData.todo}/>
+            <ListItem button className={classes.todoListItem} onClick={handleOpen}>
                 {props.todoData !== undefined && 
                 <>
                 <ListItemIcon>
@@ -83,25 +88,11 @@ function ToDo(props) {
                 <ListItemText primary={props.todoData.todo} className={checked ? classes.todoText__checked : classes.todoText__normal} />
                     
                 <ListItemSecondaryAction>
-                    <IconButton onClick={handleOpen}>
-                        <EditIcon />
-                    </IconButton>
                     <IconButton onClick={deleteTodo}>
-                        <DeleteForeverIcon />
+                        <RemoveCircleOutlineIcon />
                     </IconButton>
                 </ListItemSecondaryAction>
                 </>
-                }
-                {props.todoData === undefined &&
-                    <>
-                        {/* <ListItemText primary={"Add a todo"} ></ListItemText> */}
-                        <Input style={{ width: "85%"}}value={input} onChange={(e) => setInput(e.target.value)}/>
-                        <ListItemSecondaryAction>
-                        <IconButton onClick={handleOpen}>
-                            <AddCircleIcon />
-                        </IconButton>
-                </ListItemSecondaryAction>
-                    </>
                 }
             </ListItem>
         </>

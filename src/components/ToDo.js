@@ -1,7 +1,6 @@
 import React, { useState} from 'react';
 import "./ToDo.css";
-import { ListItem, ListItemText, ListItemIcon, Button, Modal, makeStyles, IconButton, Checkbox, ListItemSecondaryAction } from "@material-ui/core";
-// import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { ListItem, ListItemText, ListItemIcon, makeStyles, IconButton, Checkbox, ListItemSecondaryAction } from "@material-ui/core";
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import { db } from "../firebase";
 import EditDialog from './EditDialog';
@@ -16,15 +15,17 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2, 4, 3),
     },
     todoListItem: {
-        boxShadow: theme.shadows[1],
+        
         marginBottom: theme.spacing(2),
         padding: theme.spacing(1),
         borderRadius: theme.spacing(1),
-        backgroundColor: "rgb(245, 255, 255)",
+        backgroundColor: "rgb(255, 255, 255)",
         "&:hover": {
-            // backgroundColor: "rgb(247, 202, 205)"
-            backgroundColor: "rgb(34, 143, 129)"
+            //backgroundColor: "#50ADD0"
         },
+        "&:focus": {
+            //backgroundColor: "#7DC5E1"
+        }
     },
     
     todoText__normal: {
@@ -38,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 function ToDo(props) {
     const classes = useStyles();
     const [editOpen, setEditOpen] = useState(false)
-    const [input, setInput] = useState("");
     const [checked, setChecked] = useState(false);
     
     const deleteTodo = () => {
@@ -54,38 +54,27 @@ function ToDo(props) {
         setEditOpen(true);
     }
 
-    const updateTodo = () => {
-        db.collection("todos").doc(props.todoData.id).set({
-            todo: input,
-        }, { merge: true });
-        handleClose();
-    }
     const handleChange = (event) => {
+        event.stopPropagation();
         setChecked(event.target.checked);
     }    
 
-
     return (
         <>
-            {props.todoData &&
-            <Modal
-                open={false}
-                onClose={handleClose}>
-                    <div className={classes.paper}>
-                        <p>Mein leben!</p>
-                        <input placeholder={props.todoData.todo} onChange={(e) => setInput(e.target.value)} />
-                        <Button onClick={updateTodo}>Update todo</Button>
-                    </div>
-            </Modal>}
-            <EditDialog open={editOpen} handleClose={handleClose} todoData={props.todoData.todo}/>
-            <ListItem button className={classes.todoListItem} onClick={handleOpen}>
+            <EditDialog open={editOpen} handleClose={handleClose} handleEdit={props.handleEdit} todoId={props.todoId} todoTitle={props.todoData.todoTitle} todoContent={props.todoData.todoContent}/>
+            
+            <ListItem button className={classes.todoListItem}>
                 {props.todoData !== undefined && 
                 <>
                 <ListItemIcon>
                     <Checkbox checked={checked} onChange={handleChange}/>
                 </ListItemIcon>
                 
-                <ListItemText primary={props.todoData.todo} className={checked ? classes.todoText__checked : classes.todoText__normal} />
+                <ListItemText
+                    primary={props.todoData.todoTitle}
+                    secondary={props.todoData.todoContent}
+                    className={checked ? classes.todoText__checked : classes.todoText__normal}
+                    onClick={handleOpen} />
                     
                 <ListItemSecondaryAction>
                     <IconButton onClick={deleteTodo}>

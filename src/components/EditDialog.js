@@ -59,32 +59,31 @@ export default function EditDialog({ open, handleClose, todoId, todoTitle, todoC
             <DialogContent className={classes.myDialog}>
                 
                 <form autoComplete="off" className={classes.root}>
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
-                            <TextField
-                                id="todo-title"
-                                label="Title"
-                                value={title}
-                                variant={!contentEditable ? "filled" : "outlined"}
-                                onChange={(e) => setTitle(e.target.value)}
-                                InputProps={{
-                                    readOnly: !contentEditable,
-                                }}
-                                // onChange={(e) => setTitle(e.target.value)}
-                            />
-                            <TextField
-                                id="todo-description"
-                                label="Description"
-                                multiline
-                                rows={5}
-                                value={content}
-                                variant={!contentEditable ? "filled" : "outlined"}
-                                onChange={(e) => setContent(e.target.value)}
-                                InputProps={{
-                                    readOnly: !contentEditable,
-                                }}
-                            />
-                        </div>
-                    </form>
+                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+                        <TextField
+                            id="todo-title"
+                            label="Title"
+                            value={title}
+                            variant={!contentEditable ? "filled" : "outlined"}
+                            onChange={(e) => setTitle(e.target.value)}
+                            InputProps={{
+                                readOnly: !contentEditable,
+                            }}
+                        />
+                        <TextField
+                            id="todo-description"
+                            label="Description"
+                            multiline
+                            rows={5}
+                            value={content}
+                            variant={!contentEditable ? "filled" : "outlined"}
+                            onChange={(e) => setContent(e.target.value)}
+                            InputProps={{
+                                readOnly: !contentEditable,
+                            }}
+                        />
+                    </div>
+                </form>
                 
             </DialogContent>
             <DialogActions>

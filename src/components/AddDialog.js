@@ -10,9 +10,10 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     myDialog: {
-        width: "400px"
-    }
-    
+        [theme.breakpoints.up('sm')]: {
+            width: "400px"
+        }
+    },
 }))
 
 export default function AddDialog({ open, handleClose, handleAddTodoItem }) {
@@ -35,28 +36,28 @@ export default function AddDialog({ open, handleClose, handleAddTodoItem }) {
 
 
     return (
-        <Dialog open={open} onClose={handleClose} aria-labelledby="edit-dialog">
-            <DialogTitle id="edit-dialog-title">Add New Todo</DialogTitle>
+        <Dialog open={open} onClose={handleClose} aria-labelledby="add-dialog">
+            <DialogTitle id="add-dialog-title">Add New Todo</DialogTitle>
             <DialogContent className={classes.myDialog}>
-                    <form autoComplete="off" className={classes.root}>
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
-                            <TextField
-                                classes={useStyles.textField}
-                                id="todo-title"
-                                label="Title"
-                                variant="outlined"
-                                onChange={(e) => setTitle(e.target.value)}
-                            ></TextField>
-                            <TextField
-                                id="todo-description"
-                                label="Description"
-                                multiline
-                                rows={5}
-                                variant="outlined"
-                                onChange={(e) => setContent(e.target.value)}
-                            ></TextField>
-                        </div>
-                    </form>
+                <form autoComplete="off" className={classes.root}>
+                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+                        <TextField
+                            classes={useStyles.textField}
+                            id="todo-title"
+                            label="Title"
+                            variant="outlined"
+                            onChange={(e) => setTitle(e.target.value)}
+                        ></TextField>
+                        <TextField
+                            id="todo-description"
+                            label="Description"
+                            multiline
+                            rows={5}
+                            variant="outlined"
+                            onChange={(e) => setContent(e.target.value)}
+                        ></TextField>
+                    </div>
+                </form>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleCancel}>

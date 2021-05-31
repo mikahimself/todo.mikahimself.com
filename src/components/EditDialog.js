@@ -12,36 +12,50 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     myDialog: {
-        width: "400px"
+        [theme.breakpoints.up('sm')]: {
+            width: "400px"
+        }
+    },
+    editButton: {
+        position: 'absolute',
+        top: theme.spacing(1),
+        right: theme.spacing(1)
     }
 }))
 
 export default function EditDialog({ open, handleClose, todoId, todoTitle, todoContent, handleEdit }) {
     const classes = useStyles();
-    const [titleEditable, setTitleEditable] = React.useState(false);
-    // const [contentEditable, setContentEditable] = React.useState(false);
+    const [contentEditable, setContentEditable] = React.useState(false);
     const [title, setTitle] = React.useState(todoTitle);
     const [content, setContent] = React.useState(todoContent);
 
-    const handleTitle = () => {
-        setTitleEditable(true);
-        console.log("Title editable: " + titleEditable)
+    const setEditable = () => {
+        setContentEditable(true);
     }
 
     const handleCancel = () => {
         setTitle(todoTitle);
+        setContentEditable(false);
         setContent(todoContent);
         handleClose();
     }
 
     const handleSave = () => {
         handleEdit({ todoId, title, content });
+        setContentEditable(false);
         handleClose();
     }
 
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="edit-dialog">
-            <DialogTitle id="edit-dialog-title">Edit Todo</DialogTitle>
+            <DialogTitle id="edit-dialog-title">
+                Edit Todo
+                <IconButton
+                    className={classes.editButton}
+                    onClick={setEditable}>
+                    <EditIcon />
+                </IconButton>    
+            </DialogTitle>
             <DialogContent className={classes.myDialog}>
                 
                 <form autoComplete="off" className={classes.root}>
@@ -50,13 +64,10 @@ export default function EditDialog({ open, handleClose, todoId, todoTitle, todoC
                                 id="todo-title"
                                 label="Title"
                                 value={title}
-                                variant="outlined"
+                                variant={!contentEditable ? "filled" : "outlined"}
                                 onChange={(e) => setTitle(e.target.value)}
                                 InputProps={{
-                                    readOnly: false,
-                                    endAdornment: <IconButton onClick={handleTitle}>
-                                        <EditIcon />
-                                    </IconButton>,
+                                    readOnly: !contentEditable,
                                 }}
                                 // onChange={(e) => setTitle(e.target.value)}
                             />
@@ -66,9 +77,11 @@ export default function EditDialog({ open, handleClose, todoId, todoTitle, todoC
                                 multiline
                                 rows={5}
                                 value={content}
-                                variant="outlined"
+                                variant={!contentEditable ? "filled" : "outlined"}
                                 onChange={(e) => setContent(e.target.value)}
-                                // onChange={(e) => setContent(e.target.value)}
+                                InputProps={{
+                                    readOnly: !contentEditable,
+                                }}
                             />
                         </div>
                     </form>

@@ -30,18 +30,15 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(2),
   },
   list: {
-    maxWidth: "100%",
     padding: theme.spacing(4),
     marginTop: theme.spacing(4),
     borderRadius: theme.spacing(2),
-    // backgroundColor: "#2F97C1",
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2),
     },
   },
   addIcon: {
     fontSize: "2.5rem",
-    //color: "rgb(245, 255, 255)",
   }
 }))
 
@@ -69,7 +66,6 @@ function App() {
   }
 
   const handleEditTodoItem = (item) => {
-    console.log(item)
     db.collection("todos").doc(item.todoId).set({
       todoTitle: item.title,
       todoContent: item.content
@@ -87,15 +83,15 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <ToDoToolbar />
-      <Container maxWidth="sm" className="App" >
+      <Container maxWidth="md" className="App" >
 
         <Container style={{backgroundColor: "#50ADD0", borderRadius: "16px"}}>
           <List className={classes.list}>
             {todos.map(todo => (
               <ToDo key={todo.id} todoId={todo.id} todoData={todo} handleEdit={handleEditTodoItem}/>
             ))}
-            <IconButton color="secondary">
-              <AddCircleIcon color="inherit" style={{ backgroundColor: "#ffffff", borderRadius: "50%"}} className={classes.addIcon} onClick={handleAddTodoOpen}/>
+            <IconButton color="secondary" onClick={handleAddTodoOpen}>
+              <AddCircleIcon color="inherit" style={{ backgroundColor: "#ffffff", borderRadius: "50%"}} className={classes.addIcon} />
             </IconButton>
           </List>
         </Container>

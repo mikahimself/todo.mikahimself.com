@@ -1,7 +1,7 @@
 import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
-import { DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles, TextField } from '@material-ui/core';
+import { DialogActions, DialogContent, DialogTitle, makeStyles, TextField } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,6 +22,14 @@ export default function AddDialog({ open, handleClose, handleAddTodoItem }) {
 
     const handleSave = () => {
         handleAddTodoItem({ title, content });
+        setTitle("");
+        setContent("");
+        handleClose();
+    }
+
+    const handleCancel = () => {
+        setTitle("");
+        setContent("");
         handleClose();
     }
 
@@ -30,7 +38,6 @@ export default function AddDialog({ open, handleClose, handleAddTodoItem }) {
         <Dialog open={open} onClose={handleClose} aria-labelledby="edit-dialog">
             <DialogTitle id="edit-dialog-title">Add New Todo</DialogTitle>
             <DialogContent className={classes.myDialog}>
-                <DialogContentText>
                     <form autoComplete="off" className={classes.root}>
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                             <TextField
@@ -50,13 +57,12 @@ export default function AddDialog({ open, handleClose, handleAddTodoItem }) {
                             ></TextField>
                         </div>
                     </form>
-                </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>
+                <Button onClick={handleCancel}>
                     Cancel
                 </Button>
-                <Button onClick={handleSave}>
+                <Button onClick={handleSave} disabled={title === '' && content === ''}>
                     Save
                 </Button>
             </DialogActions>

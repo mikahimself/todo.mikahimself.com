@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         border: "2px solid #000",
         boxShadow: theme.shadows[1],
-        padding: theme.spacing(2, 4, 3),
+        padding: theme.spacing(2),
     },
     todoListItem: {        
         marginBottom: theme.spacing(2),
@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 function ToDo(props) {
     const classes = useStyles();
     const [editOpen, setEditOpen] = useState(false)
-    const [checked, setChecked] = useState(false);
     
     const deleteTodo = () => {
         db.collection('todos').doc(props.todoData.id).delete();
@@ -52,7 +51,7 @@ function ToDo(props) {
 
     const handleChange = (event) => {
         event.stopPropagation();
-        setChecked(event.target.checked);
+        props.handleCheck({todoId: props.todoData.id, todoDone: event.target.checked})
     }    
 
     return (
@@ -63,13 +62,13 @@ function ToDo(props) {
                 {props.todoData !== undefined && 
                 <>
                     <ListItemIcon>
-                        <Checkbox checked={checked} onChange={handleChange}/>
+                        <Checkbox checked={props.todoData.todoDone} onChange={handleChange}/>
                     </ListItemIcon>
                     
                     <ListItemText
                         primary={props.todoData.todoTitle}
                         secondary={props.todoData.todoContent}
-                        className={checked ? classes.todoText__checked : classes.todoText__normal}
+                        className={props.todoData.todoDone ? classes.todoText__checked : classes.todoText__normal}
                         onClick={handleOpen} />
                         
                     <ListItemSecondaryAction>

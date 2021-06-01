@@ -30,9 +30,17 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(2),
   },
   list: {
-    padding: theme.spacing(4),
-    marginTop: theme.spacing(4),
     borderRadius: theme.spacing(2),
+  },
+  pageContainer: {
+    paddingBottom: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    textAlign: "center"
+  },
+  listContainer: {
+    backgroundColor: "#50ADD0",
+    borderRadius: theme.spacing(2),
+    padding: theme.spacing(4, 5, 2),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2),
     },
@@ -53,18 +61,26 @@ function App() {
         id: doc.id,
         todoTitle: doc.data().todoTitle,
         todoContent: doc.data().todoContent,
+        todoDone: doc.data().todoDone,
       })
-    ))})
+    ).sort((a, b) => a.todoDone - b.todoDone ))})
   }, [])
 
   const handleAddTodoItem = (item) => {
     db.collection("todos").add({
       todoTitle: item.title,
       todoContent: item.content,
+      todoDone: item.isDone,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     })
   }
 
+  const handleCheckTodo = (item) => {
+    db.collection("todos").doc(item.todoId).set({
+      todoDone: item.todoDone,
+    }, { merge: true});
+  }
+ 
   const handleEditTodoItem = (item) => {
     db.collection("todos").doc(item.todoId).set({
       todoTitle: item.title,
@@ -83,12 +99,12 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <ToDoToolbar />
-      <Container maxWidth="md" className="App" >
+      <Container maxWidth="md" className={classes.pageContainer}>
 
-        <Container style={{backgroundColor: "#50ADD0", borderRadius: "16px"}}>
+        <Container className={classes.listContainer}>
           <List className={classes.list}>
             {todos.map(todo => (
-              <ToDo key={todo.id} todoId={todo.id} todoData={todo} handleEdit={handleEditTodoItem}/>
+              <ToDo key={todo.id} todoId={todo.id} todoData={todo} handleEdit={handleEditTodoItem} handleCheck={handleCheckTodo}/>
             ))}
             <IconButton color="secondary" onClick={handleAddTodoOpen}>
               <AddCircleIcon color="inherit" style={{ backgroundColor: "#ffffff", borderRadius: "50%"}} className={classes.addIcon} />
@@ -96,7 +112,7 @@ function App() {
           </List>
         </Container>
       
-        <AddDialog open={addTodoOpen} handleClose={handleAddTodoClose} handleAddTodoItem={handleAddTodoItem} ></AddDialog>
+        <AddDialog open={addTodoOpen} handleClose={handleAddTodoClose} handleAddTodoItem={handleAddTodoItem} />
 
       </Container>
     </ThemeProvider>

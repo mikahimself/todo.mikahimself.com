@@ -22,7 +22,7 @@ export default function AddDialog({ open, handleClose, handleAddTodoItem }) {
     const [content, setContent] = React.useState("");
 
     const handleSave = () => {
-        handleAddTodoItem({ title, content });
+        handleAddTodoItem({ title, content, isDone: false });
         setTitle("");
         setContent("");
         handleClose();

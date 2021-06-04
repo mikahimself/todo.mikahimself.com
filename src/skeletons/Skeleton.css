@@ -1,0 +1,47 @@
+.skeletonTodo {
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    background: rgb(255, 255, 255);
+    height: 54px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 16px;
+}
+
+.checkbox-container {
+    min-width: 56px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.text-container {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    height: 44px;
+    padding-left: 8px;
+    padding-top: 6px;
+}
+
+.skeleton {
+    background: #ddd;
+    border-radius: 4px;
+}
+
+.skeleton.text {
+    width: 90%;
+    height: 14px;
+}
+
+.skeleton.title {
+    width: 40%;
+    height: 14px;
+    margin-bottom: 8px;
+}
+
+.skeleton.checkbox {
+    height: 20px;
+    width: 20px;
+}

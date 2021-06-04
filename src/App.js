@@ -9,6 +9,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import firebase from "firebase";
 import AddDialog from './components/AddDialog';
 import ToDoToolbar from './components/ToDoToolbar';
+import SkeletonTodo from './skeletons/SkeletonTodo';
 
 const theme = createMuiTheme({
   palette: {
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(null);
   const [addTodoOpen, setAddTodoOpen] = useState(false);
 
   useEffect(() => {
@@ -103,9 +104,18 @@ function App() {
 
         <Container className={classes.listContainer}>
           <List className={classes.list}>
-            {todos.map(todo => (
+            {todos && todos.map(todo => (
               <ToDo key={todo.id} todoId={todo.id} todoData={todo} handleEdit={handleEditTodoItem} handleCheck={handleCheckTodo}/>
             ))}
+            {!todos && (
+              <>
+              <SkeletonTodo />
+              <SkeletonTodo />
+              <SkeletonTodo />
+              <SkeletonTodo />
+              <SkeletonTodo />
+              </>
+            )}
             <IconButton color="secondary" onClick={handleAddTodoOpen}>
               <AddCircleIcon color="inherit" style={{ backgroundColor: "#ffffff", borderRadius: "50%"}} className={classes.addIcon} />
             </IconButton>

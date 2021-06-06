@@ -107,19 +107,12 @@ function App() {
             {todos && todos.map(todo => (
               <ToDo key={todo.id} todoId={todo.id} todoData={todo} handleEdit={handleEditTodoItem} handleCheck={handleCheckTodo}/>
             ))}
-            {!todos && (
-              <>
-              <SkeletonTodo />
-              <SkeletonTodo />
-              <SkeletonTodo />
-              <SkeletonTodo />
-              <SkeletonTodo />
-              </>
-            )}
+            {!todos && [1,2,3,4,5].map((n) => <SkeletonTodo key={n} theme="light" />)}
             <IconButton color="secondary" onClick={handleAddTodoOpen}>
               <AddCircleIcon color="inherit" style={{ backgroundColor: "#ffffff", borderRadius: "50%"}} className={classes.addIcon} />
             </IconButton>
           </List>
+          <SkeletonTodo key="df" theme="light" />
         </Container>
       
         <AddDialog open={addTodoOpen} handleClose={handleAddTodoClose} handleAddTodoItem={handleAddTodoItem} />

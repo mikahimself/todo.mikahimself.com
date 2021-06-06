@@ -1,4 +1,4 @@
-import { AppBar, Button, FormControl, FormControlLabel, Switch, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, FormControl, FormControlLabel, Switch, Toolbar, Typography } from '@material-ui/core'
 import React from 'react'
 
 export default function ToDoToolbar( { setTheme, darkMode }) {

@@ -2,7 +2,7 @@ import './App.css';
 import IconButton from "@material-ui/core/IconButton";
 import { ThemeProvider } from '@material-ui/styles';
 import React, { useState, useEffect } from "react";
-import { List, Container, makeStyles, createMuiTheme, CssBaseline, MuiThemeProvider } from '@material-ui/core';
+import { List, Container, makeStyles, createMuiTheme, CssBaseline } from '@material-ui/core';
 import ToDo from "./components/ToDo";
 import { db } from "./firebase";
 import AddCircleIcon from '@material-ui/icons/AddCircle';

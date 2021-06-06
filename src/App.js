@@ -112,7 +112,6 @@ function App() {
               <AddCircleIcon color="inherit" style={{ backgroundColor: "#ffffff", borderRadius: "50%"}} className={classes.addIcon} />
             </IconButton>
           </List>
-          <SkeletonTodo key="df" theme="light" />
         </Container>
       
         <AddDialog open={addTodoOpen} handleClose={handleAddTodoClose} handleAddTodoItem={handleAddTodoItem} />

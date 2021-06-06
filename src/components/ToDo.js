@@ -5,23 +5,14 @@ import { db } from "../firebase";
 import EditDialog from './EditDialog';
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: "2px solid #000",
-        boxShadow: theme.shadows[1],
-        padding: theme.spacing(2),
-    },
     todoListItem: {        
         marginBottom: theme.spacing(2),
         borderRadius: theme.spacing(1),
         paddingRight: "48px",
-        backgroundColor: "rgb(255, 255, 255)",
+        backgroundColor: theme.palette.background.default,
         "&:hover": {
-            backgroundColor: "#C0E4FB"
+            backgroundColor: theme.palette.primary.light
         },
-        "&:focus": {
-            //backgroundColor: "#7DC5E1"
-        }
     },
     
     todoText__normal: {
@@ -31,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     todoText__checked: {
         textDecoration: "line-through"
     }
-}))
+}));
 
 function ToDo(props) {
     const classes = useStyles();

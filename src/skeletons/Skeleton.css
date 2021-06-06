@@ -2,7 +2,7 @@
     position: relative;
     border-radius: 0.5rem;
     padding: 0.5rem;
-    height: 54px;
+    height: 72px;
     overflow: hidden;
     display: grid;
     grid-template-columns: 1fr 12fr 1fr;
@@ -20,8 +20,8 @@
 .text-container {
     display: flex;
     flex-direction: column;
-    height: 44px;
     justify-content: center;
+    padding-left: 8px;
 }
 
 .skeleton {
@@ -45,16 +45,12 @@
     width: 20px;
 }
 
-.skeletonTodo.light {
-    background: rgb(255, 255, 255);
-}
-
 .skeletonTodo.dark {
     background: #444;
 }
 
 .skeletonTodo.dark .skeleton {
-    background: #777;
+    background: #303030;
 }
 
 /* Shimmer animation */

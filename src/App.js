@@ -107,7 +107,7 @@ function App() {
               <ToDo key={todo.id} todoId={todo.id} todoData={todo} handleEdit={handleEditTodoItem} handleCheck={handleCheckTodo}/>
             ))}
             {!todos && [1,2,3,4,5].map((n) => <SkeletonTodo key={n} />)}
-            <IconButton color="secondary" onClick={handleAddTodoOpen}>
+            <IconButton color="secondary" onClick={handleAddTodoOpen} id="add-todo-button">
               <AddCircleIcon color="inherit" style={{ backgroundColor: "#ffffff", borderRadius: "50%"}} className={classes.addIcon} />
             </IconButton>
           </List>

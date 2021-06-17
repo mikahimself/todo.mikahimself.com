@@ -15,8 +15,10 @@ const db = firebaseApp.firestore();
 
 // eslint-disable-next-line no-restricted-globals
 if (location.hostname === 'localhost') {
+    // Used to fix issue with Cypress failing to connect to emulator
+    firebase.firestore().settings({ experimentalForceLongPolling: true })
     db.useEmulator('localhost', 8080);
     //auth().useEmulator('http://localhost:9099/', { disableWarnings: true });
-  }
+}
 
 export { db };

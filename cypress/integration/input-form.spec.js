@@ -1,19 +1,19 @@
 describe('Input form', () => {
-    it('Opens the page', () => {
+    beforeEach(() => {
         cy.visit('http://localhost:3000');
-    })
+    });
+
+    it('Opens the page', () => {});
 
     it('Contains Add button', () => {
-        cy.visit('http://localhost:3000')
         cy.get('[id=add-todo-button]')
         .should('exist');
     })
 
     it('Opens Add dialog when Add button is clicked', () => {
-        cy.visit('http://localhost:3000')
         cy.get('[id=add-todo-button]')
-        .click()
+        .click();
         cy.get('[aria-labelledby=add-dialog]')
-        .should('exist')
-    })
+        .should('exist');
+    });
 })

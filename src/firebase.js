@@ -13,4 +13,10 @@ export const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 
+// eslint-disable-next-line no-restricted-globals
+if (location.hostname === 'localhost') {
+    db.useEmulator('localhost', 8080);
+    //auth().useEmulator('http://localhost:9099/', { disableWarnings: true });
+  }
+
 export { db };

@@ -1,0 +1,28 @@
+{
+    "todos": [
+        {
+            "timestamp": "01/01/2021",
+            "todoContent": "Test content 1.",
+            "todoDone": "true",
+            "todoTitle": "Test Title 1"
+        },
+        {
+            "timestamp": "02/01/2021",
+            "todoContent": "Test content 2.",
+            "todoDone": "true",
+            "todoTitle": "Test Title 2"
+        },
+        {
+            "timestamp": "03/01/2021",
+            "todoContent": "Test content 3.",
+            "todoDone": "true",
+            "todoTitle": "Test Title 3"
+        },
+        {
+            "timestamp": "04/01/2021",
+            "todoContent": "Test content 4.",
+            "todoDone": "true",
+            "todoTitle": "Test Title 4"
+        }
+    ]
+}

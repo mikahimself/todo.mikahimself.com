@@ -20,7 +20,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "emulators": "firebase emulators:start --import=data --export-on-exit"
   },
   "eslintConfig": {
     "extends": [

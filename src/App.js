@@ -26,7 +26,7 @@ function App() {
     setLoggedIn(true);
   }
 
-  const getUiConfig = {
+  const uiConfig = {
       'callbacks': {
         // Called when the user has been successfully signed in.
         'signInSuccessWithAuthResult': function(authResult, redirectUrl) {
@@ -82,7 +82,7 @@ function App() {
   useEffect(() => {
     ui.current = firebaseui.auth.AuthUI.getInstance()
     || new firebaseui.auth.AuthUI(firebase.auth());
-    ui.current.start('#firebaseui-auth-container', getUiConfig());
+    ui.current.start('#firebaseui-auth-container', uiConfig);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -145,7 +145,7 @@ function App() {
     firebase.auth().signOut()
     .then(setLoggedIn(false))
     .then(console.log("Signed out"))
-    .then(ui.current.start('#firebaseui-auth-container', getUiConfig()));
+    .then(ui.current.start('#firebaseui-auth-container', uiConfig));
   }
 
   return (

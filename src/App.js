@@ -26,8 +26,7 @@ function App() {
     setLoggedIn(true);
   }
 
-  const getUiConfig = () => {
-    return {
+  const getUiConfig = {
       'callbacks': {
         // Called when the user has been successfully signed in.
         'signInSuccessWithAuthResult': function(authResult, redirectUrl) {
@@ -39,9 +38,6 @@ function App() {
               authResult.additionalUserInfo.profile.name,
               authResult.additionalUserInfo.profile.id,
             ]);
-            // document.getElementById('is-new-user').textContent =
-            //     authResult.additionalUserInfo.isNewUser ?
-            //     'New User' : 'Existing User';
           }
           // Do not redirect.
           return false;
@@ -53,14 +49,12 @@ function App() {
         {
           provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         },
-        // firebase.auth.GithubAuthProvider.PROVIDER_ID,
       ],
       // Terms of service url.
       'tosUrl': 'https://www.google.com',
       // Privacy policy url.
       'privacyPolicyUrl': 'https://www.google.com',
-    };
-  }
+  };
 
   const useStyles = makeStyles((theme) => ({
     todoList: {
@@ -89,6 +83,7 @@ function App() {
     ui.current = firebaseui.auth.AuthUI.getInstance()
     || new firebaseui.auth.AuthUI(firebase.auth());
     ui.current.start('#firebaseui-auth-container', getUiConfig());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

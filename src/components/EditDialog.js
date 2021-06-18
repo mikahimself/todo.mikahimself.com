@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function EditDialog({ open, handleClose, todoId, todoTitle, todoContent, handleEdit }) {
+export default function EditDialog({ loggedIn, open, handleClose, todoId, todoTitle, todoContent, handleEdit }) {
     const classes = useStyles();
     const [contentEditable, setContentEditable] = React.useState(false);
     const [title, setTitle] = React.useState(todoTitle);
@@ -50,11 +50,12 @@ export default function EditDialog({ open, handleClose, todoId, todoTitle, todoC
         <Dialog open={open} onClose={handleClose} aria-labelledby="edit-dialog">
             <DialogTitle id="edit-dialog-title">
                 Edit Todo
-                <IconButton
+                {loggedIn && (<IconButton
                     className={classes.editButton}
                     onClick={setEditable}>
                     <EditIcon />
-                </IconButton>    
+                </IconButton>)
+                }    
             </DialogTitle>
             <DialogContent className={classes.myDialog}>
                 
@@ -90,7 +91,7 @@ export default function EditDialog({ open, handleClose, todoId, todoTitle, todoC
                 <Button onClick={handleCancel}>
                     Cancel
                 </Button>
-                <Button onClick={handleSave}>
+                <Button disabled={!loggedIn} onClick={handleSave}>
                     Save
                 </Button>
             </DialogActions>

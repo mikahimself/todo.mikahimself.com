@@ -47,7 +47,7 @@ function ToDo(props) {
 
     return (
         <>
-            <EditDialog open={editOpen} handleClose={handleClose} handleEdit={props.handleEdit} todoId={props.todoId} todoTitle={props.todoData.todoTitle} todoContent={props.todoData.todoContent}/>
+            <EditDialog loggedIn={props.loggedIn} open={editOpen} handleClose={handleClose} handleEdit={props.handleEdit} todoId={props.todoId} todoTitle={props.todoData.todoTitle} todoContent={props.todoData.todoContent}/>
             
             <ListItem key={props.todoId} button className={classes.todoListItem}>
                 {props.todoData !== undefined && 

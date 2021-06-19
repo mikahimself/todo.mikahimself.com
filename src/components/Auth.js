@@ -8,7 +8,10 @@ export default class Auth extends Component {
         const gProvider = new firebase.auth.GoogleAuthProvider();
         firebaseApp.auth().signInWithPopup(gProvider)
         .then(() => {
-            console.log("Logged in");
+            console.log("Logged in")
+        })
+        .catch((e) => {
+            console.log(e);
         })
         console.log("Clicked")
     }

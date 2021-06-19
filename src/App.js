@@ -12,8 +12,6 @@ import AddDialog from './components/AddDialog';
 import ToDoToolbar from './components/ToDoToolbar';
 import SkeletonTodo from './skeletons/SkeletonTodo';
 import myTheme from './themeSetup';
-import * as firebaseui from 'firebaseui';
-import 'firebaseui/dist/firebaseui.css';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -27,35 +25,17 @@ function App() {
   }
 
   const uiConfig = {
-      'callbacks': {
-        // Called when the user has been successfully signed in.
-        'signInSuccessWithAuthResult': function(authResult, redirectUrl) {
-          if (authResult.user) {
-            handleSignedInUser(authResult.user);
-          }
-          if (authResult.additionalUserInfo) {
-            setLoggedUser([
-              authResult.additionalUserInfo.profile.name,
-              authResult.additionalUserInfo.profile.id,
-            ]);
-          }
-          // Do not redirect.
-          return false;
-        }
-      },
-      "credentialHelper": firebaseui.auth.CredentialHelper.NONE,
-      "signInSuccessUrl": 'https://todo.mikahimself.com',
-      // Opens IDP Providers sign-in flow in a popup.
-      'signInFlow': 'popup',
-      'signInOptions': [
-        {
-          provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        },
-      ],
-      // Terms of service url.
-      'tosUrl': 'https://www.google.com',
-      // Privacy policy url.
-      'privacyPolicyUrl': 'https://www.google.com',
+    // Popup signin flow rather than redirect flow.
+    signInFlow: 'popup',
+    // We will display Google and Facebook as auth providers.
+    signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      // Avoid redirects after sign-in.
+      signInSuccessWithAuthResult: () => false,
+    },
   };
 
   const useStyles = makeStyles((theme) => ({
@@ -80,13 +60,6 @@ function App() {
   const classes = useStyles();
   const [todos, setTodos] = useState(null);
   const [addTodoOpen, setAddTodoOpen] = useState(false);
-
-  useEffect(() => {
-    ui.current = firebaseui.auth.AuthUI.getInstance()
-    || new firebaseui.auth.AuthUI(firebase.auth());
-    ui.current.start('#firebaseui-auth-container', uiConfig);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   useEffect(() => {
     db.collection("todos").orderBy("timestamp", "desc").onSnapshot(snapshot => { setTodos(snapshot.docs.map(doc => (
@@ -174,7 +147,8 @@ function App() {
         <AddDialog open={addTodoOpen} handleClose={handleAddTodoClose} handleAddTodoItem={handleAddTodoItem} />
         {loggedIn && loggedUser && (
           <div>Logged in as {loggedUser[0]} <Button onClick={handleSignOut}>Log out</Button></div>)}
-        <div id="firebaseui-auth-container"></div>
+        
+      
       </Container>
     </ThemeProvider>
   );

@@ -21,4 +21,4 @@ if (location.hostname === 'localhost') {
     //auth().useEmulator('http://localhost:9099/', { disableWarnings: true });
 }
 
-export { db };
+export { db, firebaseApp };

@@ -43,6 +43,8 @@ function App() {
           return false;
         }
       },
+      "credentialHelper": firebaseui.auth.CredentialHelper.NONE,
+      "signInSuccessUrl": 'https://todo.mikahimself.com',
       // Opens IDP Providers sign-in flow in a popup.
       'signInFlow': 'popup',
       'signInOptions': [

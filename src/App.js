@@ -17,12 +17,13 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [theme, setTheme] = useState(myTheme);
   const [loggedIn, setLoggedIn] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [loggedUser, setLoggedUser] = useState(null);
   const ui = useRef(null);
 
-  const handleSignedInUser = (user) => {
-    setLoggedIn(true);
-  }
+  // const handleSignedInUser = (user) => {
+  //   setLoggedIn(true);
+  // }
 
   const uiConfig = {
     // Popup signin flow rather than redirect flow.

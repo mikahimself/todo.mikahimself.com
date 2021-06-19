@@ -1,8 +1,7 @@
 import './App.css';
 import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
 import { ThemeProvider } from '@material-ui/styles';
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { List, Container, makeStyles, createMuiTheme, CssBaseline } from '@material-ui/core';
 import ToDo from "./components/ToDo";
 import { db } from "./firebase";
@@ -19,25 +18,12 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [loggedUser, setLoggedUser] = useState(null);
-  const ui = useRef(null);
+  
+  const handleSignedInStatus = (user, loggedIn) => {
+    setLoggedIn(loggedIn);
+    setLoggedUser(user);
+  }
 
-  // const handleSignedInUser = (user) => {
-  //   setLoggedIn(true);
-  // }
-
-  const uiConfig = {
-    // Popup signin flow rather than redirect flow.
-    signInFlow: 'popup',
-    // We will display Google and Facebook as auth providers.
-    signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.FacebookAuthProvider.PROVIDER_ID
-    ],
-    callbacks: {
-      // Avoid redirects after sign-in.
-      signInSuccessWithAuthResult: () => false,
-    },
-  };
 
   const useStyles = makeStyles((theme) => ({
     todoList: {
@@ -117,17 +103,10 @@ function App() {
     setAddTodoOpen(false);
   }
 
-  const handleSignOut = () => {
-    firebase.auth().signOut()
-    .then(setLoggedIn(false))
-    .then(console.log("Signed out"))
-    .then(ui.current.start('#firebaseui-auth-container', uiConfig));
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <ToDoToolbar color="primary" setTheme={handleThemeSwitch} darkMode={darkMode}/>
+      <ToDoToolbar handleSignedInStatus={handleSignedInStatus} loggedIn={loggedIn} color="primary"  setTheme={handleThemeSwitch} darkMode={darkMode}/>
       <Container color="primary" maxWidth="md" className={classes.pageContainer}>
 
         <Container className={classes.listContainer}>
@@ -145,10 +124,7 @@ function App() {
           </List>
         </Container>
       
-        <AddDialog open={addTodoOpen} handleClose={handleAddTodoClose} handleAddTodoItem={handleAddTodoItem} />
-        {loggedIn && loggedUser && (
-          <div>Logged in as {loggedUser[0]} <Button onClick={handleSignOut}>Log out</Button></div>)}
-        
+        <AddDialog open={addTodoOpen} handleClose={handleAddTodoClose} handleAddTodoItem={handleAddTodoItem} />        
       
       </Container>
     </ThemeProvider>

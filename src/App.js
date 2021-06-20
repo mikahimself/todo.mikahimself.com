@@ -11,6 +11,7 @@ import AddDialog from './components/AddDialog';
 import ToDoToolbar from './components/ToDoToolbar';
 import SkeletonTodo from './skeletons/SkeletonTodo';
 import myTheme from './themeSetup';
+import LoginDialog from './components/LoginDialog';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -107,7 +108,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ToDoToolbar handleSignedInStatus={handleSignedInStatus} loggedIn={loggedIn} color="primary"  setTheme={handleThemeSwitch} darkMode={darkMode}/>
-      <Container color="primary" maxWidth="md" className={classes.pageContainer}>
+      {loggedIn && (<Container color="primary" maxWidth="md" className={classes.pageContainer}>
 
         <Container className={classes.listContainer}>
           <List className={classes.todoList}>
@@ -123,10 +124,13 @@ function App() {
             }
           </List>
         </Container>
-      
+            
         <AddDialog open={addTodoOpen} handleClose={handleAddTodoClose} handleAddTodoItem={handleAddTodoItem} />        
-      
-      </Container>
+        
+      </Container>)}
+      {!loggedIn && (
+          <LoginDialog handleSignedInStatus={handleSignedInStatus} styles={classes}/>
+        )}
     </ThemeProvider>
   );
 }

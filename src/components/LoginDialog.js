@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { firebaseApp } from '../firebase';
-import { Button, Container, InputLabel, makeStyles, TextField } from "@material-ui/core";
+import { Button, Container, InputLabel, makeStyles, TextField, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -9,26 +9,36 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .MuiOutlinedInput-root': {
             background: "#ffffff",
-            marginBottom: theme.spacing(2),
             borderRadius: theme.spacing(0.5),
         },
         '& .MuiOutlinedInput-input': {
           padding: theme.spacing(1.5, 1.5),
         },
         '& .MuiFormLabel-root': {
+            marginTop: theme.spacing(2),
             padding: theme.spacing(1,1,1,1),
             fontWeight: "bold",
         },
     },
     loginInputContainer: {
         margin: "32px 0px",
-        padding: "32px 40px 32px",
+        padding: theme.spacing(2, 4, 4, 4),
         background: "#50ADD0",
         borderRadius: theme.spacing(1),
     },
     loginInputLabel: {
+        marginTop: theme.spacing(2),
         padding: theme.spacing(1,1,1,0.2),
-            fontWeight: "600",
+        fontWeight: "600",
+    },
+    loginErrorMessage: {
+        color: "#E12F38",
+        marginTop: theme.spacing(1),
+        // marginBottom: theme.spacing(2),
+    },
+    loginErrorMessageBlock: {
+        height: "34px",
+        padding: theme.spacing(0.5, 0)
     },
     myDialog: {
         [theme.breakpoints.up('sm')]: {
@@ -44,13 +54,20 @@ function LoginDialog(props) {
     const classes = useStyles();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [invalidLogin, setInvalidLogin] = useState(false);
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
+        if (invalidLogin) {
+            setInvalidLogin(false);
+        }
     }
     
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
+        if (invalidLogin) {
+            setInvalidLogin(false);
+        }
     }
 
     const handleEmailSignin = () => {
@@ -62,6 +79,7 @@ function LoginDialog(props) {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            setInvalidLogin(true);
             console.log(`${errorCode}: ${errorMessage}`);
         });
 
@@ -91,6 +109,12 @@ function LoginDialog(props) {
                             variant="outlined"
                             onChange={handlePasswordChange}
                         ></TextField>
+                        <div className={classes.loginErrorMessageBlock}>
+                        {invalidLogin && <Typography variant="body2" component="body2" className={classes.loginErrorMessage}>
+                            Invalid username or password
+                        </Typography>}
+
+                        </div>
                     </div>
                     <Button variant="contained" className={classes.signInButton} color="secondary" disableElevation onClick={handleEmailSignin}>Sign in</Button>
                 </form>

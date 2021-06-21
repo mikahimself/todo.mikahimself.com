@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
             fontWeight: "bold",
         },
     },
+    
     loginInputContainer: {
         margin: "32px 0px",
         padding: theme.spacing(2, 4, 4, 4),
@@ -34,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
     loginErrorMessage: {
         color: "#E12F38",
         marginTop: theme.spacing(1),
-        // marginBottom: theme.spacing(2),
     },
     loginErrorMessageBlock: {
         height: "34px",
@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
     signInButton: {
         marginRight: theme.spacing(2),
+        width: "100%",
     }
 }))
 
@@ -86,7 +87,7 @@ function LoginDialog(props) {
     }
 
     return (
-        <Container color="primary" maxWidth="md" className={props.styles.pageContainer}>
+        <Container color="primary" maxWidth="sm" className={props.styles.pageContainer}>
             <Container color="primary" className={classes.loginInputContainer}>
                 <form autoComplete="off">
                     <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
@@ -115,10 +116,11 @@ function LoginDialog(props) {
                         </Typography>}
 
                         </div>
+                        <div>
+                            <Button variant="contained" className={classes.signInButton} color="secondary" disableElevation onClick={handleEmailSignin}>Sign in</Button>
+                        </div>
                     </div>
-                    <Button variant="contained" className={classes.signInButton} color="secondary" disableElevation onClick={handleEmailSignin}>Sign in</Button>
                 </form>
-                {/* <Button variant="contained" color="primary" disableElevation>Sign in with Google</Button> */}
                 
             </Container>
             

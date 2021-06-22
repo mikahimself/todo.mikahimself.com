@@ -11,6 +11,7 @@ export const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
+firebaseApp.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
 const db = firebaseApp.firestore();
 
 // eslint-disable-next-line no-restricted-globals

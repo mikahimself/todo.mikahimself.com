@@ -62,6 +62,7 @@ function App() {
       setLoggedUser(user);
       setLoggedIn(loggedIn);
     } else {
+      setTodos(null);
       unsubscriber.current();
       setLoggedUser(null);
       setLoggedIn(false);

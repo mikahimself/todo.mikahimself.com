@@ -4,9 +4,6 @@ import { Button, Container, InputLabel, makeStyles, TextField, Typography } from
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& .MuiTextField-root': {
-
-        },
         '& .MuiOutlinedInput-root': {
             background: "#ffffff",
             borderRadius: theme.spacing(0.5),
@@ -83,7 +80,6 @@ function LoginDialog(props) {
             setInvalidLogin(true);
             console.log(`${errorCode}: ${errorMessage}`);
         });
-
     }
 
     return (

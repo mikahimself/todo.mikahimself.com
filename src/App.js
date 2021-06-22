@@ -1,7 +1,7 @@
 import './App.css';
 import IconButton from "@material-ui/core/IconButton";
 import { ThemeProvider } from '@material-ui/styles';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { List, Container, makeStyles, createMuiTheme, CssBaseline } from '@material-ui/core';
 import ToDo from "./components/ToDo";
 import { db } from "./firebase";
@@ -12,19 +12,29 @@ import ToDoToolbar from './components/ToDoToolbar';
 import SkeletonTodo from './skeletons/SkeletonTodo';
 import myTheme from './themeSetup';
 import LoginDialog from './components/LoginDialog';
+import { firebaseApp } from './firebase';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [theme, setTheme] = useState(myTheme);
   const [loggedIn, setLoggedIn] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [loggedUser, setLoggedUser] = useState(null);
-  
-  const handleSignedInStatus = (user, loggedIn) => {
-    setLoggedIn(loggedIn);
-    setLoggedUser(user);
-  }
+  const [todos, setTodos] = useState(null);
+  const [addTodoOpen, setAddTodoOpen] = useState(false);
+  const unsubscriber = useRef(null);
 
+  useEffect(() => {
+    if (loggedIn && loggedUser) {
+      unsubscriber.current = db.collection("todos").where("userId", "==", loggedUser.uid).orderBy("timestamp", "desc").onSnapshot(snapshot => { setTodos(snapshot.docs.map(doc => (
+        {
+          id: doc.id,
+          todoTitle: doc.data().todoTitle,
+          todoContent: doc.data().todoContent,
+          todoDone: doc.data().todoDone,
+          todoUid: doc.data().userId,
+        })
+      ).sort((a, b) => a.todoDone - b.todoDone ))})}
+  }, [loggedIn, loggedUser]);
 
   const useStyles = makeStyles((theme) => ({
     todoList: {
@@ -43,29 +53,29 @@ function App() {
     addIcon: {
       fontSize: "2.5rem",
     }
-  }))
+  }));
 
   const classes = useStyles();
-  const [todos, setTodos] = useState(null);
-  const [addTodoOpen, setAddTodoOpen] = useState(false);
 
-  useEffect(() => {
-    db.collection("todos").orderBy("timestamp", "desc").onSnapshot(snapshot => { setTodos(snapshot.docs.map(doc => (
-      {
-        id: doc.id,
-        todoTitle: doc.data().todoTitle,
-        todoContent: doc.data().todoContent,
-        todoDone: doc.data().todoDone,
-      })
-    ).sort((a, b) => a.todoDone - b.todoDone ))})
-  }, [])
+  const handleSignedInStatus = (user, loggedIn) => {
+    if (loggedIn) {
+      setLoggedUser(user);
+      setLoggedIn(loggedIn);
+    } else {
+      unsubscriber.current();
+      setLoggedUser(null);
+      setLoggedIn(false);
+      firebaseApp.auth().signOut();
+    }
+  } 
 
   const handleAddTodoItem = (item) => {
     db.collection("todos").add({
       todoTitle: item.title,
       todoContent: item.content,
       todoDone: item.isDone,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      userId: loggedUser.uid,
     })
   }
 

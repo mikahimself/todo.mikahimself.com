@@ -1,10 +1,8 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
-import { firebaseApp } from '../firebase';
 
 function Auth(props) {
     const handleSignOutClick = () => {
-        firebaseApp.auth().signOut();
         props.handleSignedInStatus("Seppo", false);
     }
 
